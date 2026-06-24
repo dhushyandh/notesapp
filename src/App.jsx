@@ -22,7 +22,21 @@ import outputs from "../amplify_outputs.json";
  * @type {import('aws-amplify/data').Client<import('../amplify/data/resource').Schema>}
  */
 
-Amplify.configure(outputs);
+// Convert the project's amplify_outputs.json into the aws-exports shape
+const awsExports = {
+  aws_project_region: outputs?.aws_project_region || outputs?.auth?.aws_region,
+  aws_cognito_region: outputs?.auth?.aws_region || outputs?.aws_project_region,
+  aws_user_pools_id: outputs?.auth?.user_pool_id,
+  aws_user_pools_web_client_id: outputs?.auth?.user_pool_client_id,
+  aws_cognito_identity_pool_id: outputs?.auth?.identity_pool_id,
+  aws_appsync_graphqlEndpoint: outputs?.data?.url,
+  aws_appsync_region: outputs?.data?.aws_region,
+  aws_appsync_authenticationType: outputs?.data?.default_authorization_type,
+  aws_user_files_s3_bucket: outputs?.storage?.bucket_name,
+  aws_user_files_s3_bucket_region: outputs?.storage?.aws_region,
+};
+
+Amplify.configure(awsExports);
 const client = generateClient({
   authMode: "userPool",
 });
@@ -88,16 +102,17 @@ export default function App() {
   }
 
   return (
-    <Authenticator>
-      {({ signOut }) => (
-        <Flex
-          className="App"
-          justifyContent="center"
-          alignItems="center"
-          direction="column"
-          width="70%"
-          margin="0 auto"
-        >
+    <div className="auth-wrapper">
+      <Authenticator>
+        {({ signOut }) => (
+          <Flex
+            className="App"
+            justifyContent="center"
+            alignItems="center"
+            direction="column"
+            width="70%"
+            margin="0 auto"
+          >
           <Flex as="nav" className="app-nav" width="100%" justifyContent="space-between" alignItems="center" marginBottom="1rem">
             <Image src={logo} alt="Notes logo" className="logo-img" />
             <Button className="signout-btn" variation="link" onClick={signOut}>
@@ -183,9 +198,10 @@ export default function App() {
             ))}
           </Grid>
           {/* Sign out moved to navbar */}
-        </Flex>
-      )}
-    </Authenticator>
+          </Flex>
+        )}
+      </Authenticator>
+    </div>
   );
 }
 

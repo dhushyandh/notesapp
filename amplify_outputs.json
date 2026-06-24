@@ -1,8 +1,6 @@
 {
   "note": "This is a minimal stub to satisfy Amplify build imports. Replace with real outputs from your Amplify environment when available.",
-  "aws_project_region": "us-east-1"
-}
-{
+  "aws_project_region": "us-east-1",
   "auth": {
     "user_pool_id": "eu-north-1_M3NmEsQyv",
     "aws_region": "eu-north-1",

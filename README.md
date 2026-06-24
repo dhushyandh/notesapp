@@ -50,7 +50,7 @@ notesapp/
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/notesapp.git
+git clone https://github.com/dhushyandh/notesapp.git
 cd notesapp
 ```
 

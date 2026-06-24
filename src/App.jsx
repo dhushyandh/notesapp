@@ -11,8 +11,8 @@ import {
   Grid,
   Divider,
 } from "@aws-amplify/ui-react";
+import logo from "./assets/logo.svg";
 import { Amplify } from "aws-amplify";
-import "@aws-amplify/ui-react/styles.css";
 import { getUrl } from "aws-amplify/storage";
 import { uploadData } from "aws-amplify/storage";
 import { generateClient } from "aws-amplify/data";
@@ -98,6 +98,12 @@ export default function App() {
           width="70%"
           margin="0 auto"
         >
+          <Flex as="nav" className="app-nav" width="100%" justifyContent="space-between" alignItems="center" marginBottom="1rem">
+            <Image src={logo} alt="Notes logo" className="logo-img" />
+            <Button className="signout-btn" variation="link" onClick={signOut}>
+              Sign Out
+            </Button>
+          </Flex>
           <Heading level={1}>My Notes App</Heading>
           <View as="form" margin="3rem 0" onSubmit={createNote}>
             <Flex
@@ -176,7 +182,7 @@ export default function App() {
               </Flex>
             ))}
           </Grid>
-          <Button onClick={signOut}>Sign Out</Button>
+          {/* Sign out moved to navbar */}
         </Flex>
       )}
     </Authenticator>

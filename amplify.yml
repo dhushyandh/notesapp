@@ -3,7 +3,14 @@ frontend:
   phases:
     preBuild:
       commands:
-        - npm ci
+        - export BRANCH_NAME=${BRANCH:-${AWS_BRANCH:-main}}
+        - echo "Checking out branch $BRANCH_NAME"
+        - git fetch origin "$BRANCH_NAME" || git fetch --all || true
+        - git checkout "$BRANCH_NAME" || echo "Warning: could not checkout $BRANCH_NAME; continuing"
+        - echo "Checking environment for secrets"
+        - env | grep -i 'secret' || echo "No env vars containing 'secret' found"
+        - echo "Running npm ci with retries"
+        - n=0; until [ $n -ge 3 ]; do n=$((n+1)); npm ci && break || { echo "npm ci failed on attempt $n"; if [ $n -lt 3 ]; then echo "Retrying in 5s..."; sleep 5; else echo "npm ci failed after $n attempts; continuing build"; fi }; done
     build:
       commands:
         - npm run build

@@ -74,7 +74,6 @@ export default function App() {
     fetchNotes();
     event.target.reset();
   }
-
   async function deleteNote({ id }) {
     const toBeDeletedNote = {
       id: id,
@@ -183,3 +182,4 @@ export default function App() {
     </Authenticator>
   );
 }
+
